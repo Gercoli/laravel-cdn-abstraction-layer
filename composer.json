@@ -1,0 +1,21 @@
+{
+    "name": "gercoli/laravel-cdn-abstraction-layer",
+    "description": "An abstraction layer for other laravel-cdn projects.",
+    "keywords": ["laravel", "cdn", "laravel-cdn"],
+    "type": "library",
+    "require": {
+        "php": ">=5.5.0",
+        "laravel/laravel": "5.1.*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.0"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Garry Ercoli",
+            "email": "Garry@GErcoli.com"
+        }
+    ],
+    "minimum-stability": "dev"
+}

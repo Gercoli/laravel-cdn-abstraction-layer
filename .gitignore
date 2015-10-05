@@ -1,0 +1,19 @@
+# Composer
+/vendor
+composer.lock
+composer.phar
+
+# OS X
+.DS_Store
+.DS_Store?
+.Trashes
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# IDEs
+.*.sw?
+/nbproject/
+.project
+.idea
