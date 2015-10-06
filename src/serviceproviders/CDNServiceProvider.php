@@ -1,10 +1,19 @@
 <?php
 
-namespace GErcoli\CDN;
+namespace GErcoli\CDN\ServiceProviders;
+
 
 use Illuminate\Console\Command;
 use Illuminate\Support\ServiceProvider;
+use InvalidArgumentException;
 
+/**
+ * The CDNServiceProvider class is designed to allow other packages to extend it
+ * and gives them a set of methods to easily implement a CDN class which can be
+ * used identically to others.
+ *
+ * @author Garry Ercoli <Garry@GErcoli.com>
+ */
 abstract class CDNServiceProvider extends ServiceProvider
 {
     /**
@@ -14,12 +23,6 @@ abstract class CDNServiceProvider extends ServiceProvider
      */
     protected $defer = false;
 
-    /**
-     * Stores a list of the commands to be used.
-     *
-     * @var array
-     */
-    protected $commands = [];
 
     /**
      * Adds an artisan command.
@@ -28,30 +31,22 @@ abstract class CDNServiceProvider extends ServiceProvider
      * @throws InvalidArgumentException
      * @return CDNServiceProvider
      */
-    public function addCommand($commandName, $commandClass)
+    protected function addCommand($commandName, $commandClass)
     {
         if(!is_string($commandName)) {
-            throw new InvalidArgumentException('Expected string for $commandName but receieved ' . gettype($commandName));
+            throw new InvalidArgumentException('Expected string for $commandName but received ' . gettype($commandName));
         }
 
         if(!is_string($commandClass)) {
-            throw new InvalidArgumentException('Expected string for $commandClass but receieved ' . gettype($commandClass));
+            throw new InvalidArgumentException('Expected string for $commandClass but received ' . gettype($commandClass));
         }
 
-        $this->commands[$commandName] = $commandClass;
+        $this->app[$commandName] = $this->app->share(function() use ($commandClass) {
+            return $this->app->make($commandClass);
+        });
+
+        $this->commands($commandName);
 
         return $this;
     }
-
-    public function boot()
-    {
-
-    }
-
-    /**
-     * Register the service provider.
-     *
-     * @return void
-     */
-    abstract public function register();
 }
